@@ -7,7 +7,7 @@ def request_content(URL: str) -> str | None:
 
     response = requests.get(URL, impersonate="safari_ios")
     if response.status_code != 200:
-        print(f"Error: {response.status_code}")
+        print(f"URL: {URL}, Error: {response.status_code}")
         return None
     return response.text
 
@@ -19,6 +19,9 @@ def scrape_amazon_product(ASIN: str) -> None:
 
     html = request_content(URL)
 
+    if not html:
+        return
+    
     tree = HTMLParser(html)
 
     title_element = tree.css_first("span#title")
